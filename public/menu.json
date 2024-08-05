@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "parentId": 0,
+    "key": "sub",
+    "label": "Navigation Two",
+    "element": "HomeView",
+    "children": [
+      {
+        "id":6,
+        "parentId": 1,
+        "key": "item1",
+        "label": "Option 5",
+        "element": "Item1"
+      },
+      {
+        "id": 7,
+        "parentId": 1,
+        "key": "item2",
+        "label": "Option 6",
+        "element": "Item2"
+      },
+      {
+        "id": 8,
+        "parentId": 1,
+        "key": "sub3",
+        "label": "Submenu",
+        "element": "Sub1",
+        "children": [
+          {
+            "id": 9,
+            "parentId": 8,
+            "key": "iiem1",
+            "label": "Option 7",
+            "element": "Item3"
+          },
+          {
+            "id": 10,
+            "parentId": 8,
+            "key": "iiem2",
+            "label": "Option 8",
+            "element": "Item4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "parentId": 0,
+    "key": "sub4",
+    "label": "Navigation Three",
+    "element": "List",
+    "children": [
+      {
+        "id": 3,
+        "parentId": 2,
+        "key": "list1",
+        "label": "Option 9",
+        "element": "Item5"
+      },
+      {
+        "id": 4,
+        "parentId": 2,
+        "key": "list2",
+        "label": "Option 10",
+        "element": "Item6"
+      }
+    ]
+  }
+]
