@@ -1,4 +1,7 @@
 import { Outlet } from "react-router-dom";
+// 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
+import { echarts } from '../graphs';
+import { useRef, useEffect } from "react"
 export const Home = () => {
 	return (
 		<div>
@@ -8,13 +11,59 @@ export const Home = () => {
 	)
 }
 export const Item1 = () => {
+	const target = useRef(null)
+	useEffect(() => {
+		const myChart = echarts.init(target.current);
+myChart.setOption({
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: 'bar'
+    }
+  ]
+});
+	}, [])
 	return (
-		<div>11111</div>
+		<div ref={target} style={{
+			width: "500px",
+			height: '300px'
+		}}>
+			
+		</div>
 	)
 }
 export const Item2 = () => {
+	const target = useRef(null)
+	useEffect(() => {
+		const myChart = echarts.init(target.current);
+myChart.setOption({
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: 'line'
+    }
+  ]
+});
+	}, [])
 	return (
-		<div>222</div>
+		<div ref={target} style={{
+			width: "500px",
+			height: '300px'
+		}}>222</div>
 	)
 }
 export const Sub1 = () => {

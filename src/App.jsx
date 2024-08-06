@@ -10,10 +10,11 @@ import {
   List
 } from "./pages"
 import { useSelector, useDispatch} from "react-redux"
-import { Layout, Menu, theme, Spin, Button } from "antd";
+import { Button, Checkbox, Form, Input } from 'antd';
+import { Dropdown, Avatar, Layout, Menu, theme, Spin } from "antd";
 import { useState, useEffect } from "react"
 import { useRoutes, Outlet, useLocation, Link, Navigate, useNavigate } from "react-router-dom";
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import {
   getOpenedKeys,
   getSelectedKeys,
@@ -112,8 +113,15 @@ const genItems = array => {
   }
   return res
 }
+
 function LayoutView() {
+
+  // 
+  
+  const dispatch = useDispatch()
   const location = useLocation()
+  
+
   const menu = useSelector(state => state.menu)
   // console.log(menu)
   const [loading, setLoading] = useState(true);
@@ -158,6 +166,38 @@ function LayoutView() {
   useEffect(() => {
     
   }, [location.pathname])
+  const navigate = useNavigate();
+  const changePass = () => {
+    console.log("修改密码")
+  }
+  const logOut = () => {
+    console.log("退出")
+    dispatch({
+      type: "REMOVE_USER"
+    })
+    navigate(`/login?pathname=${encodeURIComponent(location.pathname)}`)
+  }
+  const itemDrop = [
+    {
+      label: <span onClick={changePass}>修改密码</span>,
+      key: '0',
+    },
+    {
+      label: <span onClick={logOut} style={{width: "100%"}}>退出登录</span>,
+      key: '1',
+    },
+    {
+      label: '3rd menu item',
+      key: '3',
+    },
+  ];
+  const handleClickDrop = evt => {
+    // console.log(evt)
+  }
+  console.log(location)
+  if (location.pathname === '/') {
+    return <Navigate to="/sub/item1" replace={true} />
+  }
   return (
     <Layout>
       <Sider
@@ -182,7 +222,26 @@ function LayoutView() {
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        >
+          <Dropdown
+    menu={{
+      items: itemDrop,
+    }}
+    trigger={['click']}
+    onClick={handleClickDrop}
+  >
+          <Avatar
+            style={{
+              backgroundColor: '#87d068',
+              float: 'right',
+              marginTop: '16px',
+              marginRight: '16px',
+              cursor: 'pointer'
+            }}
+            icon={<UserOutlined />}
+          />
+          </Dropdown>
+        </Header>
         <Content
           style={{
             margin: '24px 16px 0',
@@ -220,7 +279,10 @@ function Home() {
     </div>
   )
 }
+
 function Login() {
+  const location = useLocation()
+  console.log(location)
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const handleLogin = () => {
@@ -228,11 +290,103 @@ function Login() {
       type: "SET_USER",
       data: "238910"
     })
-    navigate("/");
+    if (location.search) {
+      navigate(`${decodeURIComponent(location.search.slice(10))}`);
+    } else {
+      navigate("/");
+    }
+    
   }
+  const onFinish = (values) => {
+  console.log('Success:', values);
+  dispatch({
+      type: "SET_USER",
+      data: values.username
+    })
+    if (location.search) {
+      navigate(`${decodeURIComponent(location.search.slice(10))}`);
+    } else {
+      navigate("/");
+    }
+};
+const onFinishFailed = (errorInfo) => {
+  console.log('Failed:', errorInfo);
+};
   return (
-    <div>
-      <Button type="primary" onClick={handleLogin}>登录</Button>
+    <div style={{
+      width: "100vw",
+      height: "100vh",
+      display: 'flex',
+      justifyContent: "center",
+      alignItems: "center"
+    }}>
+      {/*<Button type="primary" onClick={handleLogin}>登录</Button>*/}
+      <Form
+        name="basic"
+        labelCol={{
+      span: 8,
+        }}
+        wrapperCol={{
+      span: 16,
+        }}
+        style={{
+      maxWidth: 600,
+        }}
+        initialValues={{
+      remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your username!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+  
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          name="remember"
+          valuePropName="checked"
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+  
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   )
 }
@@ -280,14 +434,21 @@ function App() {
   
   useEffect(() => {
     // console.log(23)
-    fetch("/menu.json").then(res => res.json()).then(res => {
-      flatMethod(res)
-      dispatch({
-        type: "SET_TREE_DATA",
-        data: res
+    if (user.username) {
+
+    } else {
+      fetch("/menu.json").then(res => res.json()).then(res => {
+        flatMethod(res)
+        dispatch({
+          type: "SET_TREE_DATA",
+          data: res
+        })
+
       })
-    })
+    }
+    
   }, [])
+  console.log("999999")
   // <div>
   //   <LayoutView></LayoutView>
   // </div>
