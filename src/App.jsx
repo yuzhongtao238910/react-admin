@@ -1,7 +1,6 @@
 import instance from "./utils/request"
 import {
   Home as HomeView,
-  Item1,
   Item2,
   Item3,
   Item4,
@@ -10,6 +9,7 @@ import {
   Sub1,
   List
 } from "./pages"
+import {Item1} from "./pages/item1"
 import Money from "./pages/money"
 import Person from "./pages/person"
 import { useSelector, useDispatch} from "react-redux"

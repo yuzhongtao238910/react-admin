@@ -104,18 +104,18 @@ const Person = () => {
         <Col span={18}>
           <Card>
              <List
-    itemLayout="horizontal"
-    dataSource={data}
-    renderItem={(item, index) => (
-      <List.Item>
-        <List.Item.Meta
-          avatar={<Avatar src={`/${index+1}.png`} />}
-          title={<span>{item.title}</span>}
-          description={item.description}
-        />
-      </List.Item>
-    )}
-  />
+              itemLayout="horizontal"
+              dataSource={data}
+              renderItem={(item, index) => (
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={<Avatar src={`/${index+1}.png`} />}
+                    title={<span>{item.title}</span>}
+                    description={item.description}
+                  />
+                </List.Item>
+              )}
+            />
           </Card>
         </Col>
       </Row>
