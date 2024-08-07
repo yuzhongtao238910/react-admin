@@ -133,7 +133,7 @@ const onSearch = (value) => {
 const handleSubmit = values => {
 	console.log(values)
 }
-export const Item1 = () => {
+const Item1 = () => {
 	  // const [messageApi, contextHolder] = message.useMessage();
 	  const [data, setData] = useState([])
 	const target = useRef(null)
@@ -318,3 +318,5 @@ const onFinishFailed = (errorInfo) => {
   </Form>
 	)
 }
+
+export default Item1

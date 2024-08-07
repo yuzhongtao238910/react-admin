@@ -91,3 +91,21 @@ export const flatMethod = (array) => {
         }
         return res
       }
+
+export const genRoutes = array => {
+  let res = []
+  for(let i = 0; i < array.length; i++) {
+    const node = array[i]
+    const Component = mapKey[node.element]
+    let curNode = {
+      path: node.key,
+      element: com(node.element)
+    }
+    
+    res.push(curNode)
+    if (Array.isArray(node.children) && node.children.length) {
+      curNode.children = genRoutes(node.children)
+    }
+  }
+  return res
+}
