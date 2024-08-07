@@ -2,6 +2,7 @@ const userReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_USER":
       state = {
+        ...state,
         username: action.data
       }
       return state

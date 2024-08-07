@@ -1,3 +1,4 @@
+import instance from "./utils/request"
 import {
   Home as HomeView,
   Item1,
@@ -9,6 +10,8 @@ import {
   Sub1,
   List
 } from "./pages"
+import Money from "./pages/money"
+import Person from "./pages/person"
 import { useSelector, useDispatch} from "react-redux"
 import { Button, Checkbox, Form, Input } from 'antd';
 import { Dropdown, Avatar, Layout, Menu, theme, Spin } from "antd";
@@ -31,7 +34,9 @@ const mapKey = {
   "Item5":    Item5,
   "Item6":    Item6,
   "Sub1":     Sub1,
-  "List":     List
+  "List":     List,
+  "Person": Person,
+  "Money": Money
 }
 const { Header, Content, Footer, Sider } = Layout;
 const contentStyle = {
@@ -155,7 +160,7 @@ function LayoutView() {
     // debugger
     const key1 = getOpenedKeys(location.pathname)
     const key2 = getSelectedKeys(location.pathname)
-    console.log(key1, key2)
+    // console.log(key1, key2)
     // console.log(238910)
     // setTimeout(() => {
       setOpenedKeys(key1)
@@ -175,6 +180,13 @@ function LayoutView() {
     dispatch({
       type: "REMOVE_USER"
     })
+    dispatch({
+      type: "REMOVE_TREE_DATA"
+    })
+    dispatch({
+      type: "REMOVE_FLAT_DATA"
+    })
+    localStorage.removeItem("token")
     navigate(`/login?pathname=${encodeURIComponent(location.pathname)}`)
   }
   const itemDrop = [
@@ -194,22 +206,25 @@ function LayoutView() {
   const handleClickDrop = evt => {
     // console.log(evt)
   }
-  console.log(location)
+  // console.log(location)
   if (location.pathname === '/') {
     return <Navigate to="/sub/item1" replace={true} />
   }
   return (
     <Layout>
       <Sider
-        style={{height: '100vh'}}
+        style={{height: '100vh', backgroundColor: "#fff"}}
       >
         <div style={{
           height: "64px",
-          backgroundColor: 'red'
         }}>
-          238910
+          <img style={{
+            width: '100%',
+            height: '100%',
+
+          }} src="/33.jpg" />
         </div>
-        <Menu theme="dark" mode="inline" 
+        <Menu mode="inline" 
         openKeys={openedKeys}
         selectedKeys={selectedKeys}
         onClick={onMenuItemClick}
@@ -282,7 +297,7 @@ function Home() {
 
 function Login() {
   const location = useLocation()
-  console.log(location)
+  // console.log(location)
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const handleLogin = () => {
@@ -297,20 +312,32 @@ function Login() {
     }
     
   }
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
   console.log('Success:', values);
-  dispatch({
+  // debugger
+  const res = await instance.get("http://localhost:9090/login", {
+    params: {
+      username: values.username,
+      password: values.password
+    }
+  })
+  // console.log(res)
+  const { username, token} = res.data
+  // debugger
+  localStorage.setItem("token", token)
+    dispatch({
       type: "SET_USER",
-      data: values.username
+      data: username
     })
     if (location.search) {
       navigate(`${decodeURIComponent(location.search.slice(10))}`);
     } else {
       navigate("/");
     }
+    
 };
 const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
+  // console.log('Failed:', errorInfo);
 };
   return (
     <div style={{
@@ -394,8 +421,41 @@ function com(name) {
   const Component = mapKey[name]
   return (<Component />)
 }
+const Any = () => {
+  return (
+    <div>304</div>
+  )
+}
+
+const buildMenuTree = array => {
+  const map = {};  
+  array.forEach(item => {  
+    map[item.id] = { ...item }; // 复制对象并初始化 children 数组  
+  }); 
+  const tree = [];  
+  array.forEach(item => {  
+    // 根节点的 parentId 通常设为 null 或 0（在这个例子中为 0）  
+    if (item.parentId === 0) {  
+      tree.push(map[item.id]); // 将根节点添加到树中  
+    } else {  
+      // 查找父节点并添加当前节点到父节点的 children 数组中  
+      if (map[item.parentId]) {  
+        if (map[item.parentId].children) {
+          map[item.parentId].children.push(map[item.id]);  
+        } else {
+          map[item.parentId].children = []
+          map[item.parentId].children.push(map[item.id]);  
+        }
+        
+      }  
+    }  
+  });  
+        
+  return tree;  
+}
 
 function App() {
+  const [loading, setLoading] = useState(true)
   const genRoutes = array => {
     let res = []
     for(let i = 0; i < array.length; i++) {
@@ -425,34 +485,90 @@ function App() {
       children: genRoutes(menu?.tree || [])
     },
     { path: "login", element: <Login /> },
+    { path: "*", element: <Any></Any>}
   ]
   // const eel = genRoutes(menu?.tree || [])
   // console.log(eel, 220)
   let element = useRoutes(r);
   // console.log(r, 207)
   // return element;
-  
+  // SET_FLAT_DATA
+  // SET_TREE_DATA
   useEffect(() => {
+    
+  }, [menu.tree])
+  useEffect(() => {
+    console.log("++++")
     // console.log(23)
     if (user.username) {
-
+        if (!menu.tree.length) {
+          instance.get("http://localhost:9090/api/menu").then(res => {
+            // console.log(res, 318)
+            const menuTree = buildMenuTree(res.data)
+            // console.log(menuTree, 489)
+            flatMethod(menuTree)
+            dispatch({
+              type: "SET_FLAT_DATA",
+              data: res.data
+            })
+            dispatch({
+              type: "SET_TREE_DATA",
+              data: menuTree
+            })
+          })
+       }
     } else {
-      fetch("/menu.json").then(res => res.json()).then(res => {
-        flatMethod(res)
-        dispatch({
-          type: "SET_TREE_DATA",
-          data: res
-        })
-
-      })
+      if (localStorage.getItem("token") && !menu.tree.length) {
+        instance.get("http://localhost:9090/api/menu").then(res => {
+            // console.log(res, 318)
+            const menuTree = buildMenuTree(res.data)
+            // console.log(menuTree, 489)
+            flatMethod(menuTree)
+            dispatch({
+              type: "SET_FLAT_DATA",
+              data: res.data
+            })
+            dispatch({
+              type: "SET_TREE_DATA",
+              data: menuTree
+            })
+            // setLoading(false)
+            setTimeout(() => {
+              setLoading(false)
+            }, 500)
+          }).catch(err => {
+            localStorage.removeItem("token")
+            setTimeout(() => {
+              setLoading(false)
+            }, 500)
+          })
+      } else {
+       setTimeout(() => {
+              setLoading(false)
+            }, 500)
+      }
+      // console.log("1111")
+      // fetch("/menu.json").then(res => res.json()).then(res => {
+      //   flatMethod(res)
+      //   dispatch({
+      //     type: "SET_TREE_DATA",
+      //     data: res
+      //   })
+      // })
     }
     
-  }, [])
-  console.log("999999")
+  }, [menu.tree, user.username])
+  // console.log("999999", localStorage.getItem("token"))
   // <div>
   //   <LayoutView></LayoutView>
   // </div>
-  if (user.username) {
+  if (loading) {
+    return (
+      <Spin tip="Loading" size="small" fullscreen={true} spinning={loading}>
+      </Spin>
+    )
+  }
+  if (localStorage.getItem("token")) {
     return (
       element
     )
