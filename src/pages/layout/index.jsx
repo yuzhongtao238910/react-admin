@@ -49,7 +49,19 @@ const genItems = (array) => {
   }
   return res
 }
-
+const getFirstPath = (array, res) => {
+  if (!array.length) {
+    return []
+  }
+  for (let i = 0; i < 1; i++) {
+    const node = array[i]
+    res.push(node.key)
+    if (Array.isArray(node.children) && node.children.length) {
+      getFirstPath(node.children, res)
+    }
+  }
+  return res
+}
 function LayoutView() {
 
   const dispatch = useDispatch()
@@ -121,10 +133,13 @@ function LayoutView() {
     },
   ]
   const handleClickDrop = (evt) => {
-    // console.log(evt)
   }
   if (location.pathname === '/') {
-    return <Navigate to="/sub/item1" replace={true} />
+    let res = []
+    res = getFirstPath(menu.tree, res)
+    console.log(res)
+    res.join("/")
+    return <Navigate to={res.length ? res.join("/") : "/"} replace={true} />
   }
   return (
     <Layout>
