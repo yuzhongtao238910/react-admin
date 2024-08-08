@@ -7,7 +7,7 @@ import {
   useNavigate,
 } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Form, Input, message } from 'antd'
 import { Dropdown, Avatar, Layout, Menu, theme, Spin } from 'antd'
 import instance from '@/utils/request'
 function Login() {
@@ -32,6 +32,11 @@ function Login() {
         password: values.password,
       },
     })
+    // console.log(res)
+    if (res.data.code == 400) {
+      message.error(res.data.msg)
+      return 
+    }
     const { username, token } = res.data
     localStorage.setItem('token', token)
     dispatch({
@@ -83,7 +88,7 @@ function Login() {
             },
           ]}
         >
-          <Input />
+          <Input placeholder="用户名字：admin/user" />
         </Form.Item>
 
         <Form.Item
@@ -96,7 +101,7 @@ function Login() {
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password  placeholder="密码：123456" />
         </Form.Item>
 
         <Form.Item

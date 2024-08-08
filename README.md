@@ -1,8 +1,26 @@
-# React + Vite
+# react后台管理系统
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### 这是一个react后台管理系统，不废话，直接说这个的优势在哪里
 
-Currently, two official plugins are available:
+最大的优势：代码量少，简洁，经过我在github、gitee上面反复用过的很多款的后台管理框架，发现他们普遍有以下几个问题
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. 代码量庞大，为了追求大而全，内部有非常多的hook函数，对于初学者非常的不友好
+2. 部分项目老旧，有的是用react16、react17版本，外链的官网链接打开非常的慢
+3. 由于react的路由并没有像vue路由的钩子函数，导致路径总会有一些奇奇怪怪的问题
+4. 如果使用字节、阿里的现在的框架，虽然内部集成了非常多的插件等等，但其实对新手来说还是不友好，心智负担重
+5. 配置繁琐，包括各种lint的配置，配置很繁琐，不容易上手，启动慢
+
+#### 因此本项目根据自己调研的十余款后台管理框架，加上自己的一段时间的开发，特此开源，优点如下
+
+1. 代码量少，非常适合入门，内部的工具方法大都是平级数组和树形数组的转换
+2. 配置非常少，留给开发者自己探索配置，非常的通俗易懂，依赖非常少
+3. 一个简易的全栈项目，提供了对应的后台基于nodejs实现，非常简单，大家可以自己上手玩耍，而且后台没有使用数据库，只需要js就可以完全实现
+4. 在工程化这里，基于vite配置了manualChunks进行手动拆包
+
+#### 本着缺点说透的原则，自己的东西依旧有很多的缺点
+
+1. 内部页面非常的简单，本人没有原型图不知道怎么开发，所以内部的页面结构都很简单
+2. 部分地方少不了代码的冗余和if判断，就像后台menu接口的完全就是用if来进行判断，代码很不好看
+3. 其他不足，欢迎指正
+
+#### 欢迎提供issues、pr、mr
