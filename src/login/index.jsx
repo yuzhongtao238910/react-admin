@@ -1,67 +1,73 @@
-import { useRoutes, Outlet, useLocation, Link, Navigate, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch} from "react-redux"
-import { Button, Checkbox, Form, Input } from 'antd';
-import { Dropdown, Avatar, Layout, Menu, theme, Spin } from "antd";
-import instance from "@/utils/request"
+import {
+  useRoutes,
+  Outlet,
+  useLocation,
+  Link,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Button, Checkbox, Form, Input } from 'antd'
+import { Dropdown, Avatar, Layout, Menu, theme, Spin } from 'antd'
+import instance from '@/utils/request'
 function Login() {
   const location = useLocation()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleLogin = () => {
     dispatch({
-      type: "SET_USER",
-      data: "238910"
+      type: 'SET_USER',
+      data: '238910',
     })
     if (location.search) {
-      navigate(`${decodeURIComponent(location.search.slice(10))}`);
+      navigate(`${decodeURIComponent(location.search.slice(10))}`)
     } else {
-      navigate("/");
+      navigate('/')
     }
-    
   }
   const onFinish = async (values) => {
-  const res = await instance.get("http://localhost:9090/login", {
-    params: {
-      username: values.username,
-      password: values.password
-    }
-  })
-  const { username, token} = res.data
-  localStorage.setItem("token", token)
+    const res = await instance.get('http://localhost:9090/login', {
+      params: {
+        username: values.username,
+        password: values.password,
+      },
+    })
+    const { username, token } = res.data
+    localStorage.setItem('token', token)
     dispatch({
-      type: "SET_USER",
-      data: username
+      type: 'SET_USER',
+      data: username,
     })
     if (location.search) {
-      navigate(`${decodeURIComponent(location.search.slice(10))}`);
+      navigate(`${decodeURIComponent(location.search.slice(10))}`)
     } else {
-      navigate("/");
+      navigate('/')
     }
-    
-};
-const onFinishFailed = (errorInfo) => {
-};
+  }
+  const onFinishFailed = (errorInfo) => {}
   return (
-    <div style={{
-      width: "100vw",
-      height: "100vh",
-      display: 'flex',
-      justifyContent: "center",
-      alignItems: "center"
-    }}>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Form
         name="basic"
         labelCol={{
-      span: 8,
+          span: 8,
         }}
         wrapperCol={{
-      span: 16,
+          span: 16,
         }}
         style={{
-      maxWidth: 600,
+          maxWidth: 600,
         }}
         initialValues={{
-      remember: true,
+          remember: true,
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -79,7 +85,7 @@ const onFinishFailed = (errorInfo) => {
         >
           <Input />
         </Form.Item>
-  
+
         <Form.Item
           label="Password"
           name="password"
@@ -103,7 +109,7 @@ const onFinishFailed = (errorInfo) => {
         >
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-  
+
         <Form.Item
           wrapperCol={{
             offset: 8,

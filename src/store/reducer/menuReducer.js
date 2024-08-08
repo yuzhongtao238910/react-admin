@@ -1,29 +1,29 @@
 const initialState = {
   tree: [],
-  flat: []
+  flat: [],
 }
 const menuReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_TREE_DATA":
+    case 'SET_TREE_DATA':
       return {
         ...state,
-        tree: action.data
+        tree: action.data,
       }
-    case "SET_FLAT_DATA":
+    case 'SET_FLAT_DATA':
       return {
         ...state,
-        flat: action.data
+        flat: action.data,
       }
 
-    case "REMOVE_TREE_DATA":
+    case 'REMOVE_TREE_DATA':
       return {
         ...state,
-        tree: []
+        tree: [],
       }
-    case "REMOVE_FLAT_DATA":
+    case 'REMOVE_FLAT_DATA':
       return {
         ...state,
-        flat: []
+        flat: [],
       }
     default:
       return state

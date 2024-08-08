@@ -1,4 +1,4 @@
-import { Space, Table, Tag, Collapse  } from 'antd';
+import { Space, Table, Tag, Collapse } from 'antd'
 const columns = [
   {
     title: 'Name',
@@ -23,15 +23,15 @@ const columns = [
     render: (_, { tags }) => (
       <>
         {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
+          let color = tag.length > 5 ? 'geekblue' : 'green'
           if (tag === 'loser') {
-            color = 'volcano';
+            color = 'volcano'
           }
           return (
             <Tag color={color} key={tag}>
               {tag.toUpperCase()}
             </Tag>
-          );
+          )
         })}
       </>
     ),
@@ -46,7 +46,7 @@ const columns = [
       </Space>
     ),
   },
-];
+]
 const data = [
   {
     key: '1',
@@ -69,12 +69,12 @@ const data = [
     address: 'Sydney No. 1 Lake Park',
     tags: ['cool', 'teacher'],
   },
-];
+]
 const Item3 = () => {
-	return (
-		<div>
-			<Table columns={columns} dataSource={data} />;
-		</div>
-	)
+  return (
+    <div>
+      <Table columns={columns} dataSource={data} />;
+    </div>
+  )
 }
 export default Item3

@@ -1,4 +1,4 @@
-import {useRef, useEffect, useLayoutEffect, useState} from "react"
+import { useRef, useEffect, useLayoutEffect, useState } from 'react'
 import {
   Button,
   Cascader,
@@ -9,10 +9,10 @@ import {
   Mentions,
   Select,
   TreeSelect,
-  message
-} from 'antd';
-import instance from "@/utils/request"
-const { RangePicker } = DatePicker;
+  message,
+} from 'antd'
+import instance from '@/utils/request'
+const { RangePicker } = DatePicker
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -30,7 +30,7 @@ const formItemLayout = {
       span: 14,
     },
   },
-};
+}
 const options = [
   {
     value: 'zhejiang',
@@ -64,7 +64,7 @@ const options = [
       },
     ],
   },
-];
+]
 const treeData = [
   {
     value: 'parent 1',
@@ -120,153 +120,158 @@ const treeData = [
       },
     ],
   },
-];
+]
 const onCasChange = (value) => {
-  console.log(value);
-};
+  console.log(value)
+}
 const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
+  console.log(`selected ${value}`)
+}
 const onSearch = (value) => {
-  console.log('search:', value);
-};
-const handleSubmit = values => {
-	console.log(values)
+  console.log('search:', value)
+}
+const handleSubmit = (values) => {
+  console.log(values)
 }
 const Item1 = () => {
-	  // const [messageApi, contextHolder] = message.useMessage();
-	  const [data, setData] = useState([])
-	const target = useRef(null)
-	useEffect(() => {
+  const [data, setData] = useState([])
+  const target = useRef(null)
+  useEffect(() => {
     // messageApi.success('This is a success message');
-  }, []); // 确保仅在组件挂载时运行
-	const onFinish = (values) => {
-  console.log('Success:', values);
-  // 测试后台的post请求
-  instance.post("http://localhost:9090/api/test", {
-  	select: values.Select
-  }).then(res => {
-  	console.log(res)
-  	setData(res.data.data)
-  	message.success('This is a success message');
-  })
-};
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-	return (
-		<Form
-    {...formItemLayout}
-    variant="filled"
-    style={{
-      maxWidth: 600,
-    }}
-     onFinish={onFinish}
-    onFinishFailed={onFinishFailed}
-  >
-    <Form.Item
-      label="Input"
-      name="Input"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
+  }, []) // 确保仅在组件挂载时运行
+  const onFinish = (values) => {
+    console.log('Success:', values)
+    // 测试后台的post请求
+    instance
+      .post('http://localhost:9090/api/test', {
+        select: values.Select,
+      })
+      .then((res) => {
+        console.log(res)
+        setData(res.data.data)
+        message.success('This is a success message')
+      })
+  }
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo)
+  }
+  return (
+    <Form
+      {...formItemLayout}
+      variant="filled"
+      style={{
+        maxWidth: 600,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
     >
-      <Input />
-    </Form.Item>
+      <Form.Item
+        label="Input"
+        name="Input"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
-    <Form.Item
-      label="InputNumber"
-      name="InputNumber"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <InputNumber
-        style={{
-          width: '100%',
-        }}
-      />
-    </Form.Item>
+      <Form.Item
+        label="InputNumber"
+        name="InputNumber"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <InputNumber
+          style={{
+            width: '100%',
+          }}
+        />
+      </Form.Item>
 
-    <Form.Item
-      label="TextArea"
-      name="TextArea"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <Input.TextArea />
-    </Form.Item>
+      <Form.Item
+        label="TextArea"
+        name="TextArea"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <Input.TextArea />
+      </Form.Item>
 
-    <Form.Item
-      label="Mentions"
-      name="Mentions"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <Mentions />
-    </Form.Item>
+      <Form.Item
+        label="Mentions"
+        name="Mentions"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <Mentions />
+      </Form.Item>
 
-    <Form.Item
-      label="Select"
-      name="Select"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <Select
-    showSearch
-    placeholder="Select a person"
-    optionFilterProp="label"
-    onChange={onChange}
-    onSearch={onSearch}
-    options={[
-      {
-        value: 'jack',
-        label: 'Jack',
-      },
-      {
-        value: 'lucy',
-        label: 'Lucy',
-      },
-      {
-        value: 'tom',
-        label: 'Tom',
-      },
-    ]}
-  />
-    </Form.Item>
+      <Form.Item
+        label="Select"
+        name="Select"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <Select
+          showSearch
+          placeholder="Select a person"
+          optionFilterProp="label"
+          onChange={onChange}
+          onSearch={onSearch}
+          options={[
+            {
+              value: 'jack',
+              label: 'Jack',
+            },
+            {
+              value: 'lucy',
+              label: 'Lucy',
+            },
+            {
+              value: 'tom',
+              label: 'Tom',
+            },
+          ]}
+        />
+      </Form.Item>
 
-    <Form.Item
-      label="Cascader"
-      name="Cascader"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <Cascader options={options} onChange={onCasChange} placeholder="Please select" />
-    </Form.Item>
+      <Form.Item
+        label="Cascader"
+        name="Cascader"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <Cascader
+          options={options}
+          onChange={onCasChange}
+          placeholder="Please select"
+        />
+      </Form.Item>
 
-    {/*<Form.Item
+      {/*<Form.Item
       label="TreeSelect"
       name="TreeSelect"
       rules={[
@@ -279,44 +284,44 @@ const onFinishFailed = (errorInfo) => {
       <TreeSelect />
     </Form.Item>*/}
 
-    <Form.Item
-      label="DatePicker"
-      name="DatePicker"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <DatePicker style={{width: '100%'}} />
-    </Form.Item>
+      <Form.Item
+        label="DatePicker"
+        name="DatePicker"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <DatePicker style={{ width: '100%' }} />
+      </Form.Item>
 
-    <Form.Item
-      label="RangePicker"
-      name="RangePicker"
-      rules={[
-        {
-          required: true,
-          message: 'Please input!',
-        },
-      ]}
-    >
-      <RangePicker style={{width: '100%'}}  />
-    </Form.Item>
+      <Form.Item
+        label="RangePicker"
+        name="RangePicker"
+        rules={[
+          {
+            required: true,
+            message: 'Please input!',
+          },
+        ]}
+      >
+        <RangePicker style={{ width: '100%' }} />
+      </Form.Item>
 
-    <Form.Item
-      wrapperCol={{
-        offset: 6,
-        span: 16,
-      }}
-    >
-      <Button type="primary" htmlType="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
-    </Form.Item>
-  </Form>
-	)
+      <Form.Item
+        wrapperCol={{
+          offset: 6,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  )
 }
 
 export default Item1

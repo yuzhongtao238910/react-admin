@@ -1,9 +1,9 @@
-import { Space, Table, Tag, Collapse  } from 'antd';
+import { Space, Table, Tag, Collapse } from 'antd'
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`;
+`
 const items = [
   {
     key: '1',
@@ -20,13 +20,11 @@ const items = [
     label: 'This is panel header 3',
     children: <p>{text}</p>,
   },
-];
+]
 const Item5 = () => {
-	const onChange = (key) => {
-    console.log(key);
-  };
-	return (
-		<Collapse items={items} defaultActiveKey={['1']} onChange={onChange} />
-	)
+  const onChange = (key) => {
+    console.log(key)
+  }
+  return <Collapse items={items} defaultActiveKey={['1']} onChange={onChange} />
 }
 export default Item5

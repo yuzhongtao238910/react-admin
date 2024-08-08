@@ -1,6 +1,4 @@
 const Any = () => {
-  return (
-    <div>304</div>
-  )
+  return <div>304</div>
 }
 export default Any

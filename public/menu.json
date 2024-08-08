@@ -7,7 +7,7 @@
     "element": "HomeView",
     "children": [
       {
-        "id":6,
+        "id": 6,
         "parentId": 1,
         "key": "item1",
         "label": "Option 5",
