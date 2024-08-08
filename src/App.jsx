@@ -92,7 +92,7 @@ function App() {
   useEffect(() => {
     if (user.username) {
       if (!menu.tree.length) {
-        instance.get('http://localhost:9090/api/menu').then((res) => {
+        instance.get('/api/menu').then((res) => {
           const menuTree = buildMenuTree(res.data)
           flatMethod(menuTree)
           dispatch({
@@ -108,7 +108,7 @@ function App() {
     } else {
       if (localStorage.getItem('token') && !menu.tree.length) {
         instance
-          .get('http://localhost:9090/api/menu')
+          .get('/api/menu')
           .then((res) => {
             const menuTree = buildMenuTree(res.data)
             flatMethod(menuTree)

@@ -143,7 +143,7 @@ const Item1 = () => {
     console.log('Success:', values)
     // 测试后台的post请求
     instance
-      .post('http://localhost:9090/api/test', {
+      .post('/api/test', {
         select: values.Select,
       })
       .then((res) => {

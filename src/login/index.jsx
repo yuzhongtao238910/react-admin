@@ -26,13 +26,12 @@ function Login() {
     }
   }
   const onFinish = async (values) => {
-    const res = await instance.get('http://localhost:9090/login', {
+    const res = await instance.get('/login', {
       params: {
         username: values.username,
         password: values.password,
       },
     })
-    // console.log(res)
     if (res.data.code == 400) {
       message.error(res.data.msg)
       return 
